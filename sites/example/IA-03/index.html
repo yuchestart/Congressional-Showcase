@@ -3,133 +3,710 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- TODO: Change the title to your app name and your name -->
-  <title>My App Name | Your Name</title>
-
-  <!-- Shared styles — gives you navigation arrows and CAC CSS variables -->
-  <link rel="stylesheet" href="../../assets/css/shared.css">
+  <title>IAHeroes | Joey Zambreno</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 
   <style>
-    /*
-     * TODO: Add your custom styles here. Go wild — this is YOUR page!
-     *
-     * You can use Congressional App Challenge colors with CSS variables:
-     *   var(--cac-navy)  → #000f63
-     *   var(--cac-red)   → #a53535
-     *   var(--cac-blue)  → #4560b3
-     *   var(--cac-white) → #ffffff
-     *
-     * Or use completely your own palette. It's up to you!
-     */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:   #18333A;
+      --navy-mid: #1f4048;
+      --gold:   #B22234;
+      --gold-light: #ffffff;
+      --accent: #ffffff;
+      --cream:  #f4f6f6;
+      --parchment: #e8eded;
+      --text-dark: #1a1a1a;
+      --text-mid: #3a4a4a;
+      --text-muted: #6a8080;
+      --red-accent: #B22234;
+    }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: system-ui, -apple-system, sans-serif;
-      color: #333;
-      background: #f9fafc;
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--cream);
+      color: var(--text-dark);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 4rem 2rem 3rem;
+    /* ── BACK BUTTON ──────────────────────────── */
+    .back-to-showcase {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: fixed;
+      top: 1.2rem;
+      left: 1.4rem;
+      z-index: 100;
+      text-decoration: none;
+      background: var(--navy);
+      color: var(--gold-light);
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem 0.5rem 0.85rem;
+      border-radius: 2px;
+      border: 1px solid rgba(201,168,76,0.3);
+      transition: opacity 0.2s, transform 0.15s;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
     }
 
-    header { text-align: center; margin-bottom: 3rem; }
-    header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .back-to-showcase::before {
+      content: '←';
+      font-size: 0.9rem;
+      line-height: 1;
+    }
 
-    section {
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
+    .back-to-showcase:hover {
+      opacity: 0.88;
+      transform: translateX(-2px);
+    }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      background: var(--navy);
+      color: #fff;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(201,168,76,0.04) 48px, rgba(201,168,76,0.04) 49px),
+        repeating-linear-gradient(90deg, transparent, transparent 48px, rgba(201,168,76,0.04) 48px, rgba(201,168,76,0.04) 49px);
+      pointer-events: none;
+    }
+
+    .hero-stars {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
       margin-bottom: 2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.1s forwards;
     }
 
-    h2 { font-size: 1.4rem; margin-bottom: 1rem; }
-    p { line-height: 1.7; margin-bottom: 1rem; }
+    .star {
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
 
-    .video iframe {
+    .hero-eyebrow {
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.3s forwards;
+    }
+
+    .hero h1 span { color: var(--gold); }
+
+    .hero-sub {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.4s forwards;
+    }
+
+    .hero-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.5s forwards;
+    }
+
+    .hero-divider::before,
+    .hero-divider::after {
+      content: '';
+      width: 80px;
+      height: 1px;
+      background: rgba(255,255,255,0.4);
+      opacity: 0.5;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 0.5rem 1.4rem;
+      border-radius: 2px;
+      font-size: 0.8rem;
+      font-family: 'Source Serif 4', serif;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.6s forwards;
+    }
+
+    /* ── MAIN LAYOUT ──────────────────────────── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 4rem;
+    }
+
+    /* ── SECTION BASE ────────────────────────── */
+    section {
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+
+    section:nth-child(1) { animation-delay: 0.1s; }
+    section:nth-child(2) { animation-delay: 0.2s; }
+    section:nth-child(3) { animation-delay: 0.3s; }
+    section:nth-child(4) { animation-delay: 0.4s; }
+    section:nth-child(5) { animation-delay: 0.5s; }
+    section:nth-child(6) { animation-delay: 0.55s; }
+    section:nth-child(7) { animation-delay: 0.6s; }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    /* ── CARD PANELS ─────────────────────────── */
+    .card {
+      background: #fff;
+      border: 1px solid rgba(10,22,40,0.1);
+      border-radius: 4px;
+      padding: 2.2rem 2.4rem;
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--gold);
+      border-radius: 4px 0 0 4px;
+    }
+
+    /* ── ABOUT ME ─────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    .about-fact {
+      background: var(--parchment);
+      border-radius: 3px;
+      padding: 1.2rem 1.4rem;
+    }
+
+    .about-fact-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .about-fact-value {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1rem;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    /* ── FEATURES SECTION ────────────────────── */
+    .features-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 0.85rem;
+      margin-top: 1.2rem;
+    }
+
+    .feature-card {
+      background: var(--navy);
+      border-radius: 3px;
+      padding: 1.1rem 1.3rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .feature-card-icon {
+      width: 28px;
+      height: 28px;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .feature-card-icon svg {
+      width: 13px;
+      height: 13px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .feature-card-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      line-height: 1.3;
+    }
+
+    /* ── TECH STACK ──────────────────────────── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1.2rem;
+    }
+
+    .tech-item {
+      background: var(--parchment);
+      border: 1px solid rgba(10,22,40,0.08);
+      border-radius: 3px;
+      padding: 0.9rem 1rem;
+      text-align: center;
+    }
+
+    .tech-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.95rem;
+      color: var(--navy);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .tech-role {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── VIDEO ───────────────────────────────── */
+    .video-placeholder {
+      background: var(--navy);
+      border-radius: 4px;
+      border: 1px solid rgba(201,168,76,0.2);
+      margin-top: 1.4rem;
+      padding: 3.5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 32px, rgba(201,168,76,0.03) 32px, rgba(201,168,76,0.03) 33px),
+        repeating-linear-gradient(90deg, transparent, transparent 32px, rgba(201,168,76,0.03) 32px, rgba(201,168,76,0.03) 33px);
+      pointer-events: none;
+    }
+
+    .video-play-ring {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px solid rgba(201,168,76,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .video-play-ring svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--gold);
+      margin-left: 4px;
+    }
+
+    .video-placeholder-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .video-yt-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      text-decoration: none;
+      padding: 0.65rem 1.6rem;
+      border-radius: 2px;
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: background 0.2s, color 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .video-yt-btn:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .video-yt-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* ── VIDEO ───────────────────────────────── */
+    .video-wrapper {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(10,22,40,0.1);
+      margin-top: 1.4rem;
+    }
+
+    .video-wrapper iframe {
+      display: block;
       width: 100%;
       aspect-ratio: 16 / 9;
       border: none;
-      border-radius: 8px;
     }
 
+    /* ── QUOTE BLOCK ─────────────────────────── */
+    .mission-quote {
+      background: var(--navy);
+      color: #fff;
+      border-radius: 4px;
+      padding: 2.5rem 2.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mission-quote::before {
+      content: '\201C';
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 12rem;
+      color: rgba(201,168,76,0.12);
+      position: absolute;
+      top: -2rem;
+      left: 1rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .mission-quote blockquote {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.92);
+      position: relative;
+      z-index: 1;
+    }
+
+    .mission-quote cite {
+      display: block;
+      margin-top: 1.2rem;
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ── LINKS ───────────────────────────────── */
+    .link-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      border-radius: 2px;
+      padding: 0.7rem 1.5rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .link-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .link-btn:active { transform: translateY(0); }
+
+    .link-btn.primary {
+      background: var(--navy);
+      color: var(--gold-light);
+      border: 1px solid var(--navy);
+    }
+
+    .link-btn svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    /* ── RULE DIVIDER ────────────────────────── */
+    .ornamental-rule {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0.5rem 0 2.5rem;
+    }
+
+    .ornamental-rule::before,
+    .ornamental-rule::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(10,22,40,0.15), transparent);
+    }
+
+    .ornamental-rule .diamond {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* ── FOOTER ──────────────────────────────── */
     footer {
+      background: var(--navy);
+      color: #ffffff;
       text-align: center;
       padding: 2rem;
-      color: #999;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
 
-    footer a { color: var(--cac-red); }
+    footer p {
+      color: #ffffff !important;
+    }
+
+    /* ── ANIMATIONS ──────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
-  <!-- Back button — links to the main showcase -->
-  <a href="../../" class="back-to-showcase">&larr; Back to Showcase</a>
 
+  <a href="../../" class="back-to-showcase">Back to Showcase</a>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-stars">
+      <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+    </div>
+    <p class="hero-eyebrow">Congressional App Challenge &bull; Iowa-03</p>
+    <h1>IA<span>Heroes</span></h1>
+    <p class="hero-sub">Preserving the legacy of Iowa's veterans, one story at a time.</p>
+    <div class="hero-divider"></div>
+    <div class="hero-badge">
+      <div class="star" style="width:8px;height:8px;"></div>
+      Joey Zambreno &mdash; 2025 Submission
+      <div class="star" style="width:8px;height:8px;"></div>
+    </div>
+  </header>
+
+  <!-- ── CONTENT ── -->
   <div class="container">
-    <header>
-      <!-- TODO: Replace with your name -->
-      <h1>Your Name</h1>
-      <!-- TODO: Write a short tagline about yourself -->
-      <p>A short tagline about you or your project.</p>
-    </header>
 
+    <!-- Mission Quote -->
+    <section style="animation-delay: 0.05s;">
+      <div class="mission-quote">
+        <blockquote>
+          To honor and preserve the incredible stories of Iowa's veterans by providing a modern, accessible platform for storytelling, education, and community connection. IAHeroes bridges the gap between generations, ensuring that the sacrifices and experiences of our veterans are never forgotten.
+        </blockquote>
+        <cite>— Mission Statement, IAHeroes</cite>
+      </div>
+    </section>
+
+    <div class="ornamental-rule"><div class="diamond"></div></div>
+
+    <!-- About Me -->
     <section>
-      <!-- TODO: Tell us about yourself -->
+      <p class="section-label">The Builder</p>
       <h2>About Me</h2>
-      <p>Write a few sentences about yourself. What school do you go to? What are you passionate about? What got you into coding?</p>
+      <div class="card">
+        <p>
+          Hi! My name is Joey Zambreno, and I'm a high school senior from Des Moines, Iowa. I've always been very passionate about using technology to solve real-world problems, so this challenge was a perfect fit. I built IAHeroes because I believe the stories of Iowa's veterans deserve to be heard and preserved for future generations, and that a well-designed digital platform is the best way to make that happen.
+        </p>
+      </div>
     </section>
 
+    <!-- App Description -->
     <section>
-      <!-- TODO: Tell us about your app -->
-      <h2>Your App Name</h2>
-      <p>Describe your app. What does it do? Who is it for? What problem does it solve?</p>
-      <p>What technologies did you use to build it?</p>
+      <p class="section-label">The App</p>
+      <h2>IAHeroes — Iowa Veterans Story Archive</h2>
+      <div class="card">
+        <p>
+          IAHeroes is a comprehensive web platform dedicated to preserving and sharing the stories of Iowa's veterans. The application serves as a digital archive where veterans, their families, and community members can submit, explore, and interact with veteran stories, creating a lasting legacy for future generations.
+        </p>
+        <p>
+          This full-stack platform features role-based portals for veterans, educators, and moderators, an interactive chronological timeline, advanced search, media uploads, thank-you letter submissions, and community bookmarking and flagging for inappropriate content.
+        </p>
+      </div>
     </section>
 
-    <section class="video">
-      <!-- TODO: Replace YOUR_VIDEO_ID with your YouTube video ID.
-           For example, if your video URL is https://www.youtube.com/watch?v=abc123
-           then your video ID is "abc123" -->
+    <!-- Tech Stack -->
+    <section>
+      <p class="section-label">Built With</p>
+      <h2>Technology Stack</h2>
+      <div class="tech-grid">
+        <div class="tech-item"><span class="tech-name">React</span><span class="tech-role">UI Framework</span></div>
+        <div class="tech-item"><span class="tech-name">Firebase</span><span class="tech-role">Backend &amp; Auth</span></div>
+        <div class="tech-item"><span class="tech-name">Tailwind</span><span class="tech-role">Styling</span></div>
+        <div class="tech-item"><span class="tech-name">Firestore</span><span class="tech-role">Database</span></div>
+        <div class="tech-item"><span class="tech-name">Cloudinary</span><span class="tech-role">Media Storage</span></div>
+        <div class="tech-item"><span class="tech-name">Vite</span><span class="tech-role">Build Tool</span></div>
+        <div class="tech-item"><span class="tech-name">EmailJS</span><span class="tech-role">Email Service</span></div>
+        <div class="tech-item"><span class="tech-name">Vercel</span><span class="tech-role">Hosting</span></div>
+      </div>
+    </section>
+
+    <!-- Demo Video -->
+    <section>
+      <p class="section-label">In Action</p>
       <h2>Demo</h2>
-      <iframe
-        src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
-        title="App Demo Video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-
-      <!-- Alternative: Self-hosted video (NOT recommended — use YouTube/Vimeo instead
-           to avoid bloating the repository)
-      <video controls width="100%">
-        <source src="assets/demo.mp4" type="video/mp4">
-        Your browser does not support the video element.
-      </video>
-      -->
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/hbsb3KpB2jA"
+          title="IAHeroes App Demo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+      </div>
     </section>
 
+    <!-- Links -->
     <section>
-      <!-- TODO: Add any relevant links -->
+      <p class="section-label">Explore</p>
       <h2>Links</h2>
-      <p>
-        <a href="https://github.com/yourusername/yourrepo">GitHub</a> &bull;
-        <a href="https://yourapp.com">Live App</a>
-      </p>
+      <div class="link-row">
+        <a href="https://ia-heroes-cac-final.vercel.app" class="link-btn primary" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M10 2h4m0 0v4m0-4L7 9"/>
+          </svg>
+          Live App
+        </a>
+      </div>
     </section>
+
   </div>
 
   <footer>
-    <p>Congressional App Challenge &bull; <a href="../../">Back to Showcase</a></p>
+    <p style="color:#fff !important;">Congressional App Challenge <span style="color:#B22234;margin:0 0.6rem;">&#9733;</span> <a href="../../" style="color:#fff !important;text-decoration:underline;">Back to Showcase</a></p>
   </footer>
 
-  <!-- Navigation script — enables arrow key navigation. Do NOT remove this. -->
-  <script src="../../assets/js/nav.js" data-root="../../"></script>
 </body>
 </html>
