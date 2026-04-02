@@ -4,7 +4,7 @@
     "name": "Joey Zambreno",
     "appName": "IAHeroes",
     "description": "IAHeroes is a comprehensive digital archive where veterans, their families, and community members can submit, explore, and interact with veteran stories, creating a lasting legacy for future generations.",
-    "thumbnail": "sites/example/IA-03/thumbnail.png",
+    "thumbnail": "sites/IA-03/thumbnail.png",
     "location": {
       "lat": 41.586834,
       "lng": -93.624962,
